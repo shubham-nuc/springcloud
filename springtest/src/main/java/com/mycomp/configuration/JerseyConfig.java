@@ -5,6 +5,7 @@ import javax.ws.rs.ApplicationPath;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
 
+import com.mycomp.controller.NoSecurityController;
 import com.mycomp.controller.UserController;
 
 @Component
@@ -15,5 +16,6 @@ public class JerseyConfig extends ResourceConfig {
 	public JerseyConfig(){
 		//register all the Endpoint here 
 		register(UserController.class);
+		register(NoSecurityController.class);
 	}
 }

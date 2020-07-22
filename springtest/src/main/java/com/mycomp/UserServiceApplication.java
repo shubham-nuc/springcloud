@@ -9,10 +9,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableJpaRepositories
 @EnableAutoConfiguration
-public class Springtest1Application extends SpringBootServletInitializer {
+public class UserServiceApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Springtest1Application.class, args);
+		SpringApplication.run(UserServiceApplication.class, args);
 	}
 
 }

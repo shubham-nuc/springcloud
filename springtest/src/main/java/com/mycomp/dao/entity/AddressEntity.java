@@ -1,5 +1,8 @@
 package com.mycomp.dao.entity;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 @Entity
 @Table(name="USER_ADDRESS")
@@ -39,8 +45,14 @@ public class AddressEntity {
 	@Column(name="PINCODE")
 	private int pincode;
 	
+	@Version
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="LOCK_VERSION",nullable = false)
+    private Date version;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="USER_ID", nullable=false,insertable=true,updatable=true)
+	@JoinColumn(name="USER_ID", nullable=false,insertable=true,updatable=true) // This is to give name to reference id column, 
+	//otherwise hibernate will give its own name like user_user_id
 	private UserEntity user;
 
 	public long getAddressId() {
@@ -114,5 +126,13 @@ public class AddressEntity {
 	public void setUser(UserEntity user) {
 		this.user = user;
 		//this.setUser123(user123);
+	}
+
+	public Date getVersion() {
+		return version;
+	}
+
+	public void setVersion(Date version) {
+		this.version = version;
 	}
 }

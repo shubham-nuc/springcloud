@@ -74,12 +74,16 @@ public class UserDataServiceImpl implements IUserDataService {
 		userDTO.setId(source.getId());
 		userDTO.setAge(source.getAge());
 		userDTO.setName(source.getName());
+		userDTO.setPassword(source.getPassword());
 		List<AddressEntity> addressList=source.getAddressList();
-		List<AddressDTO> addressDTOList=new ArrayList<AddressDTO>();
-		for(AddressEntity address:addressList) {
-			AddressDTO addressDTO=modelMapper.map(address, AddressDTO.class);
-			addressDTOList.add(addressDTO);
-		}
+		List<AddressDTO> addressDTOList=addressList!=null?
+				addressList.stream().map(address->modelMapper.map(address, AddressDTO.class)).collect(Collectors.toList())
+				:new ArrayList<AddressDTO>();
+		
+//		for(AddressEntity address:addressList) {
+//			AddressDTO addressDTO=modelMapper.map(address, AddressDTO.class);
+//			addressDTOList.add(addressDTO);
+//		}
 		userDTO.setAddressList(addressDTOList);
 		return userDTO;
 	}
@@ -89,13 +93,23 @@ public class UserDataServiceImpl implements IUserDataService {
 		//userEntity.setId(source.getId());
 		userEntity.setAge(source.getAge());
 		userEntity.setName(source.getName());
+		userEntity.setPassword(source.getPassword());
 		List<AddressDTO> addressList=source.getAddressList();
-		List<AddressEntity> addressDTOList=new ArrayList<AddressEntity>();
-		for(AddressDTO address:addressList) {
+		//List<AddressEntity> addressDTOList=new ArrayList<AddressEntity>();
+		
+		List<AddressEntity> addressDTOList=addressList!=null?addressList.stream().
+				map(address-> {
+					AddressEntity add=modelMapper.map(address, AddressEntity.class);
+					//add.setUser(userEntity);
+					return add;
+				})
+				.collect(Collectors.toList())
+				:new ArrayList<AddressEntity>();
+		/*for(AddressDTO address:addressList) {
 			AddressEntity addressEntity=modelMapper.map(address, AddressEntity.class);
-			//addressEntity.setUser123(userEntity);
+			//addressEntity.setUser123(userEntity); // Set at the User entity, now not needed here 
 			addressDTOList.add(addressEntity);
-		}
+		}*/
 		userEntity.setAddressList(addressDTOList);
 		return userEntity;
 	}

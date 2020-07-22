@@ -13,6 +13,7 @@ public class UserDTO {
 	private long id;
 	private String name;
 	private int age;
+	private String password;
 	
 	protected List<AddressDTO> addressList;
 	
@@ -39,6 +40,12 @@ public class UserDTO {
 	}
 	public void setAddressList(List<AddressDTO> addressList) {
 		this.addressList = addressList;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }

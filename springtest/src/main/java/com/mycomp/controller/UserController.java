@@ -24,11 +24,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mycomp.Model.UserDTO;
+import com.mycomp.Model.UserRequest;
 import com.mycomp.service.IUserService;
 
 import ch.qos.logback.core.status.Status;
@@ -39,7 +41,10 @@ import ch.qos.logback.core.status.Status;
  */
 @RestController
 @Path("/userapi")
-public class UserController {
+//CORS (Cross Origin Resource Sharing) - By default only my server IP and port is allowed
+/*@CrossOrigin(origins = "http://localhost:9090")*/  // To allow access our API from one particular IP (localhost:9090)
+/*@CrossOrigin(origins = "*") */  // To allow access of API from all outside IP
+public class UserController {  
 	//http://localhost:8080/app/v1/userapi/users
 	@Autowired
 	private IUserService userService;
@@ -56,6 +61,7 @@ public class UserController {
 	@GET
 	@Path("/users")
 	@Produces(MediaType.APPLICATION_JSON)
+	/*@CrossOrigin(origins = "http://localhost:9090")*/  // We can give CORS access at method level also
 	public Response getAllUsers() {
 		Optional<List<UserDTO>> users=userService.getAllUsers();
 		if(users.get().isEmpty()) {
@@ -85,10 +91,21 @@ public class UserController {
 		return Response.status(HttpStatus.BAD_REQUEST.value()).entity("No/Wrong Input Parameter").build();
 	}
 	
-	@POST
+	/*@POST
 	@Path("/addUser")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String addUser(@RequestBody UserDTO user) {
+		Optional<UserDTO> userDto= userService.addUser(user);
+		if(userDto.isPresent()) {
+			return successMsg;
+		}
+		return noUserMsg;
+	}*/
+	
+	@Path("/addUser")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String addUser(@RequestBody UserRequest request) {
+		UserDTO user=request.getUserDTO();
 		Optional<UserDTO> userDto= userService.addUser(user);
 		if(userDto.isPresent()) {
 			return successMsg;
@@ -102,5 +119,4 @@ public class UserController {
 		return userService.deleteUser(userId);
 	}
 	
-
 }

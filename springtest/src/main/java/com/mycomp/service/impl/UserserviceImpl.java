@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mycomp.Model.AddressDTO;
@@ -23,6 +24,9 @@ public class UserserviceImpl implements IUserService {
 	
 	@Autowired
 	private IUserDataService userDataService;
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Value("${user.delete.msg}")
 	private String deleteMsg;
@@ -37,6 +41,7 @@ public class UserserviceImpl implements IUserService {
 
 	@Override
 	public Optional<UserDTO> addUser(UserDTO user) {
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		 return userDataService.addUser(user);
 	}
 
