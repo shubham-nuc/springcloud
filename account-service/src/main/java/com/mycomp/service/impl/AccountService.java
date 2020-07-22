@@ -1,5 +1,7 @@
 package com.mycomp.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +15,7 @@ public class AccountService implements IAccountService {
 	 @Autowired
 	IDataAccountService accountDataService;
 
-	public void addAccount(AccountDTO accountDTO) {
-		accountDataService.addAccount(accountDTO);
+	public Optional<AccountDTO> addAccount(AccountDTO accountDTO) {
+		return accountDataService.addAccount(accountDTO);
 	}
 }

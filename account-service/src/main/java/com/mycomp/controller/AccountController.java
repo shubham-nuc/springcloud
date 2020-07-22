@@ -1,5 +1,7 @@
 package com.mycomp.controller;
 
+import java.util.Optional;
+
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
@@ -20,8 +22,9 @@ public class AccountController {
 	//http://localhost:8081/app/v1/account/addAccount
 	@POST
 	@Path("/addAccount")
-	public void addAccount(@RequestBody AccountDTO accountDTO) {
-		accountService.addAccount(accountDTO);
+	public AccountDTO addAccount(@RequestBody AccountDTO accountDTO) {
+		Optional<AccountDTO> accountResp=accountService.addAccount(accountDTO);
+		return accountResp.get();
 	}
 
 }

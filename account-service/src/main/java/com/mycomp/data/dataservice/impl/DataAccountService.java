@@ -1,5 +1,7 @@
 package com.mycomp.data.dataservice.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,16 +16,29 @@ public class DataAccountService implements IDataAccountService {
 	@Autowired
 	AccountRepository accountRepository;
 	
-	public void addAccount(AccountDTO accountDTO) {
-		accountRepository.save(convertToEntity(accountDTO));
+	public Optional<AccountDTO> addAccount(AccountDTO accountDTO) {
+		AccountEntity accountEntity=accountRepository.save(convertDtoToEntity(accountDTO));
+		return Optional.ofNullable(convertEntityToDto(accountEntity));
 	}
 	
-	private AccountEntity convertToEntity(AccountDTO accountDTO) {
+	private AccountEntity convertDtoToEntity(AccountDTO accountDTO) {
 		AccountEntity accountEntity=new AccountEntity();
 		accountEntity.setAccountNo(accountDTO.getAccountNo());
 		accountEntity.setAccountBalance(accountDTO.getAccountBalance());
 		accountEntity.setAccountType(accountDTO.getAccountType());
 		accountEntity.setUserId(accountDTO.getUserId());
 		return accountEntity;
+	}
+	
+	private AccountDTO convertEntityToDto(AccountEntity accountEntity) {
+		if(accountEntity!=null) {
+		AccountDTO accountDTO=new AccountDTO();
+		accountDTO.setAccountNo(accountEntity.getAccountNo());
+		accountDTO.setAccountBalance(accountEntity.getAccountBalance());
+		accountDTO.setAccountType(accountEntity.getAccountType());
+		accountDTO.setUserId(accountEntity.getUserId());
+		return accountDTO;
+		}
+		return null;
 	}
 }
