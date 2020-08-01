@@ -41,4 +41,10 @@ public class DataAccountService implements IDataAccountService {
 		}
 		return null;
 	}
+
+	@Override
+	public Optional<AccountDTO> getAccount(int accountNo) {
+		AccountEntity accountEntity=accountRepository.findByAccountNo(accountNo);
+		return Optional.ofNullable(convertEntityToDto(accountEntity));
+	}
 }

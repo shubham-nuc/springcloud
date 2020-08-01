@@ -8,4 +8,6 @@ public interface IAccountService {
 	
 	public Optional<AccountDTO> addAccount(AccountDTO accountDTO);
 
+	public Optional<AccountDTO> getAccount(int accountNo);
+
 }

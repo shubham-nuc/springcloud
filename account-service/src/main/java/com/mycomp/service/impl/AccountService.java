@@ -18,4 +18,9 @@ public class AccountService implements IAccountService {
 	public Optional<AccountDTO> addAccount(AccountDTO accountDTO) {
 		return accountDataService.addAccount(accountDTO);
 	}
+
+	@Override
+	public Optional<AccountDTO> getAccount(int accountNo) {
+		return accountDataService.getAccount(accountNo);
+	}
 }

@@ -29,5 +29,5 @@ public class AccountEntity {
 	private String accountType;
 	
 	@Column(name = "USER_ID")
-	private int userId;
+	private long userId;
 }
